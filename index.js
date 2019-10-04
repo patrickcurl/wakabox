@@ -44,12 +44,15 @@ async function updateGist(stats) {
 
   try {
     // Get original filename to update that same file
-    const filename = Object.keys(gist.data.files)[0];
+    const startDay = moment().weekday(0).format('YYYY-MM-DD')
+    const endDay = moment().weekday(6).format('YYYY-MM-DD')
+    const filename = `📊 ${startday}-${weekday} Development Breakdown`
+    //const filename = Object.keys(gist.data.files)[0];
     await octokit.gists.update({
       gist_id: gistId,
       files: {
         [filename]: {
-          filename: `📊 Weekly development breakdown`,
+          filename: `${filename}`,
           content: lines.join("\n")
         }
       }
