@@ -1,5 +1,5 @@
 require("dotenv").config();
-const moment = require('moment');
+const moment = require("moment");
 const { WakaTimeClient, RANGE } = require("wakatime-client");
 const Octokit = require("@octokit/rest");
 
@@ -45,9 +45,13 @@ async function updateGist(stats) {
 
   try {
     // Get original filename to update that same file
-    const startDay = moment().weekday(0).format('YYYY-MM-DD')
-    const endDay = moment().weekday(6).format('YYYY-MM-DD')
-    const filename = `📊 ${startday}-${weekday} Development Breakdown`
+    const startDay = moment()
+      .weekday(0)
+      .format("YYYY-MM-DD");
+    const endDay = moment()
+      .weekday(6)
+      .format("YYYY-MM-DD");
+    const filename = `📊 Development Breakdown Week of ${startDay}`;
     //const filename = Object.keys(gist.data.files)[0];
     await octokit.gists.update({
       gist_id: gistId,
@@ -66,16 +70,16 @@ async function updateGist(stats) {
 function generateBarChart(percent, size) {
   const syms = "░▏▎▍▌▋▊▉█";
 
-  const frac = size * 8 * percent / 100;
+  const frac = (size * 8 * percent) / 100;
   const barsFull = Math.floor(frac / 8);
   const semi = frac % 8;
   const barsEmpty = size - barsFull - 1;
 
   return [
-    syms.substring(8,9).repeat(barsFull),
-    syms.substring(semi,semi+1),
-    syms.substring(0,1).repeat(barsEmpty),
-  ].join('');
+    syms.substring(8, 9).repeat(barsFull),
+    syms.substring(semi, semi + 1),
+    syms.substring(0, 1).repeat(barsEmpty)
+  ].join("");
 }
 
 (async () => {
